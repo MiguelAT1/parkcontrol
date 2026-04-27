@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+  <div class="col-md-6 mb-4">
+    <h2 class="fw-bold text-center mb-4">Control de Acceso</h2>
+    
+    <div *ngIf="mensaje" class="alert alert-{{tipoMensaje}} alert-dismissible fade show" role="alert">
+      {{ mensaje }}
+      <button type="button" class="btn-close" (click)="mensaje = ''"></button>
+    </div>
+
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-5">
+        <div class="mb-4 text-center">
+          <i class="bi bi-shield-check display-1 text-primary"></i>
+          <h4 class="mt-3">Registrar Movimiento</h4>
+          <p class="text-muted">Seleccione el vehículo para registrar su entrada o salida.</p>
+        </div>
+
+        <div class="mb-5">
+          <label class="form-label fw-bold">Vehículo (Placa - Modelo)</label>
+          <select class="form-select form-select-lg" [(ngModel)]="autoSeleccionadoId">
+            <option [value]="0">Seleccione un vehículo...</option>
+            <option *ngFor="let a of autos" [value]="a.id">
+              {{ a.placa }} - {{ a.marca }} {{ a.modelo }} ({{ a.usuario?.nombres }})
+            </option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+          <button class="btn btn-success btn-lg px-4" (click)="registrarEntrada()">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Registrar Entrada
+          </button>
+          <button class="btn btn-warning btn-lg px-4" (click)="registrarSalida()">
+            <i class="bi bi-box-arrow-right me-2"></i>Registrar Salida
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

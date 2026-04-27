@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12 mb-4">
+    <h2 class="fw-bold">Gestión de Usuarios</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-white border-0 pt-4 pb-0">
+        <h5 class="card-title fw-bold">{{ editando ? 'Editar Usuario' : 'Nuevo Usuario' }}</h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="guardar()">
+          <div class="mb-3">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" [(ngModel)]="usuarioActual.nombres" name="nombres" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" [(ngModel)]="usuarioActual.apellidos" name="apellidos" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="text" class="form-control" [(ngModel)]="usuarioActual.telefono" name="telefono" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Promoción</label>
+            <input type="text" class="form-control" [(ngModel)]="usuarioActual.promocion" name="promocion">
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+            <button type="button" class="btn btn-light" *ngIf="editando" (click)="cancelarEdicion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+                <th>Teléfono</th>
+                <th>Visitas</th>
+                <th>Promoción</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of usuarios">
+                <td>{{ u.id }}</td>
+                <td>{{ u.nombres }} {{ u.apellidos }}</td>
+                <td>{{ u.telefono }}</td>
+                <td><span class="badge bg-info">{{ u.visitas }}</span></td>
+                <td>{{ u.promocion || '-' }}</td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(u)">Editar</button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="eliminar(u.id)">Eliminar</button>
+                </td>
+              </tr>
+              <tr *ngIf="usuarios.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">No hay usuarios registrados.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

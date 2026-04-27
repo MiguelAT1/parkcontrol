@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12 mb-4 d-flex justify-content-between align-items-center">
+    <div>
+      <h2 class="fw-bold">Historial de Movimientos</h2>
+      <p class="text-muted">Registro de todas las entradas y salidas de vehículos</p>
+    </div>
+    <button class="btn btn-outline-primary" (click)="cargarHistorial()">
+      <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle text-center">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Fecha y Hora</th>
+                <th>Placa del Vehículo</th>
+                <th>Tipo de Movimiento</th>
+                <th>Propietario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let m of movimientos">
+                <td class="text-muted">#{{ m.id }}</td>
+                <td class="fw-bold">{{ m.fechaHora | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                <td><span class="badge bg-dark text-uppercase">{{ m.auto?.placa }}</span></td>
+                <td>
+                  <span class="badge" [ngClass]="m.tipoMovimiento === 'ENTRADA' ? 'bg-success' : 'bg-warning text-dark'">
+                    <i class="bi" [ngClass]="m.tipoMovimiento === 'ENTRADA' ? 'bi-box-arrow-in-right' : 'bi-box-arrow-right'"></i> 
+                    {{ m.tipoMovimiento }}
+                  </span>
+                </td>
+                <td>{{ m.auto?.usuario?.nombres }} {{ m.auto?.usuario?.apellidos }}</td>
+              </tr>
+              <tr *ngIf="movimientos.length === 0">
+                <td colspan="5" class="text-muted py-5">No hay movimientos registrados en el historial.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
