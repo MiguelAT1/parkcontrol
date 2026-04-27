@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-md-12 mb-4">
+    <h2 class="fw-bold">Gestión de Autos</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-white border-0 pt-4 pb-0">
+        <h5 class="card-title fw-bold">{{ editando ? 'Editar Auto' : 'Nuevo Auto' }}</h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="guardar()">
+          <div class="mb-3">
+            <label class="form-label">Placa</label>
+            <input type="text" class="form-control text-uppercase" [(ngModel)]="autoActual.placa" name="placa" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Marca</label>
+            <input type="text" class="form-control" [(ngModel)]="autoActual.marca" name="marca" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Modelo</label>
+            <input type="text" class="form-control" [(ngModel)]="autoActual.modelo" name="modelo" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Color</label>
+            <input type="text" class="form-control" [(ngModel)]="autoActual.color" name="color">
+          </div>
+          
+          <div class="mb-4" *ngIf="!editando">
+            <label class="form-label">Usuario Propietario</label>
+            <select class="form-select" [(ngModel)]="usuarioSeleccionadoId" name="usuario" required>
+              <option [value]="0">Seleccione un usuario...</option>
+              <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombres }} {{ u.apellidos }} ({{ u.telefono }})</option>
+            </select>
+          </div>
+
+          <div class="mb-4 form-check" *ngIf="editando">
+            <input type="checkbox" class="form-check-input" id="activoCheck" [(ngModel)]="autoActual.activo" name="activo">
+            <label class="form-check-label" for="activoCheck">Auto Activo</label>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+            <button type="button" class="btn btn-light" *ngIf="editando" (click)="cancelarEdicion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Placa</th>
+                <th>Marca/Modelo</th>
+                <th>Color</th>
+                <th>Propietario</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of autos">
+                <td class="fw-bold">{{ a.placa }}</td>
+                <td>{{ a.marca }} {{ a.modelo }}</td>
+                <td>{{ a.color }}</td>
+                <td>{{ a.usuario?.nombres }} {{ a.usuario?.apellidos }}</td>
+                <td>
+                  <span class="badge" [ngClass]="a.activo ? 'bg-success' : 'bg-secondary'">
+                    {{ a.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(a)">Editar</button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="eliminar(a.id)">Eliminar</button>
+                </td>
+              </tr>
+              <tr *ngIf="autos.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">No hay autos registrados.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
